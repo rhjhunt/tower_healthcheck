@@ -17,4 +17,4 @@ jobs:
       with:
         files: '${{ steps.file_changes.outputs.files_modified }}'
       env:
-        GITHUB_TOKEN: ${{secrets.WORKFLOW_TOKEN}}
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
