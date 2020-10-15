@@ -3,10 +3,10 @@ name: tower_healthcheck
 version: 1.0.0
 readme: README.md
 authors:
-- "Jacob Hunt <jhunt@redhat.com>"
+  - "Jacob Hunt <jhunt@redhat.com>"
 description: Collection to provide a general health check of an Ansible Tower installation
 license:
-- GPL-3.0-or-later
+  - GPL-3.0-or-later
 license_file: LICENSE
 tags:
   - tower
