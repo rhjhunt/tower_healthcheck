@@ -2,7 +2,7 @@ name: markdownlint
 on: [push]
 
 jobs:
-  markdownlint:
+  lint:
     name: 'Markdownlint'
     runs-on: ubuntu-latest
     steps:

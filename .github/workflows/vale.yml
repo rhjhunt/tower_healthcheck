@@ -1,8 +1,9 @@
-name: Linting
+name: Vale
 on: [push]
 
 jobs:
   prose:
+    name: 'Vale'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
