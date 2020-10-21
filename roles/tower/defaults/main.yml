@@ -1,0 +1,6 @@
+---
+tower_oauth_token: ""
+tower_host: []
+tower_password: ""
+tower_username: admin
+validate_certs: false

@@ -1,5 +1,5 @@
 namespace: rhjhunt
-name: tower_healthcheck
+name: towerhealth
 version: 1.0.0
 readme: README.md
 authors:
@@ -16,11 +16,14 @@ tags:
   - awx
 dependencies:
   "awx.awx": "*"
+  "community.general": "*"
 repository: "https://github.com/rhjhunt/towerhealth"
 documentation: "https://github.com/rhjhunt/towerhealth/wiki"
 homepage: "https://github.com/rhjhunt/towerhealth/wiki"
 issues: "https://github.com/rhjhunt/towerhealth/issues"
 build_ignore:
-  - .vale.ini
-  - .yamllint
-  - .markdownlint.json
+  - '.vale.ini'
+  - '.yamllint'
+  - '.markdownlint.json'
+  - '.github'
+  - '.gitignore'
