@@ -15,7 +15,7 @@ tags:
   - check
   - awx
 dependencies:
-  "awx.awx": "*"
+  "ansible.tower": "*"
   "community.general": "*"
 repository: "https://github.com/rhjhunt/towerhealth"
 documentation: "https://github.com/rhjhunt/towerhealth/wiki"
