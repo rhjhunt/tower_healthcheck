@@ -1,17 +1,28 @@
-name: yamllint
+---
+name: 'Yamllint GitHub Actions'
 on: [push]
 
 jobs:
-  lint:
-    name: 'yamllint'
+
+  yamllint:
     runs-on: ubuntu-latest
     steps:
+
       - name: 'Checkout'
-        uses: actions/checkout@master
-      - name: 'yamllint'
+        uses: actions/checkout@v2
+
+      - name: 'Login to Docker Hub'
+        users: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: 'yamllint Ansible Playbook'
         uses: karancode/yamllint-github-action@master
         with:
           yamllint_file_or_dir: .
           yamllint_strict: false
           yamllint_comment: false
           yamllint_config_filepath: '.yamllint'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
