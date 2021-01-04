@@ -1,2 +1,10 @@
 ---
-# tasks file for database
+- include: vars.yml
+
+- name: Run Replica tasks
+  include_tasks: replica.yml
+  when: db_replica is defined
+
+- name: Run Database tasks
+  include_tasks: database.yml
+  when: db_server is defined

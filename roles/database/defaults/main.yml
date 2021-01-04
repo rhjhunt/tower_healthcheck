@@ -1,2 +1,3 @@
 ---
-# defaults file for database
+tower_db_external: false
+replication_time_threshold: 100
