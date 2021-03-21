@@ -18,11 +18,9 @@
   set_fact:
     haproxy_stats: "{{ lookup('csvfile', 'tower file=/tmp/haproxy.csv delimiter=, col=17') }}"
   delegate_to: localhost
-  
+
 - name: Clean up HAProxy csv file
   file:
     path: /tmp/haproxy.csv
     state: absent
   delegate_to: localhost
-
-
