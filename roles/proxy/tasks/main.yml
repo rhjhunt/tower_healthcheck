@@ -1,2 +1,28 @@
 ---
-# tasks file for proxy
+- name: Ensure that HAProxy is enabled and running
+  systemd:
+    name: haproxy
+    state: started
+    enabled: true
+
+- name: Capture HAProxy Stats
+  uri:
+    url: "https://{{ haproxy_server }}:{{ haproxy_stats_port }}/stats;csv;norefresh"
+    return_content: true
+    dest: /tmp/haproxy.csv
+    validate_certs: "{{ validate_certs }}"
+  when: haproxy_stats | bool
+  delegate_to: localhost
+
+- name: Define HAProxy values from csv file
+  set_fact:
+    haproxy_stats: "{{ lookup('csvfile', 'tower file=/tmp/haproxy.csv delimiter=, col=17') }}"
+  delegate_to: localhost
+  
+- name: Clean up HAProxy csv file
+  file:
+    path: /tmp/haproxy.csv
+    state: absent
+  delegate_to: localhost
+
+
