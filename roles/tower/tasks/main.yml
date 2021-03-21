@@ -23,3 +23,39 @@
         tower_settings: "{{ lookup('ansible.tower.tower_api', 'settings/all', host=tower_host, username=tower_user, oauth_token=tower_oauth_token, verify_ssl=validate_certs) }}"
   when:
     - tower_oauth_token is defined
+
+- name: Check status of supervisord
+  ansible.builtin.systemd:
+    name: supervisord
+    state: started
+  register: supervisord_systemd
+
+- name: Check status of nginx
+  ansible.builtin.systemd:
+    name: nginx
+    state: started
+  register: nginx_systemd
+
+- name: Check status of memcached
+  ansible.builtin.systemd:
+    name: memcached
+    state: started
+  register: memcached_systemd
+
+- name: Check that status of postgresql
+  ansible.builtin.systemd:
+    name: postgresql
+    state: started
+  register: postgresql_systemd
+  when:
+    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '8'
+
+- name: Check the status of rh-postgresql
+  ansible.builtin.systemd:
+    name: rh-postgresql
+    state: started
+  register: rh-postgresql_systemd
+  when:
+    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '7'
