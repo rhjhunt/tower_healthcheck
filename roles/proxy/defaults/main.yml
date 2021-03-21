@@ -1,2 +1,5 @@
 ---
-# defaults file for proxy
+haproxy_server: []
+haproxy_stats_port: '9000'
+haproxy_stats: true
+validate_certs: false
