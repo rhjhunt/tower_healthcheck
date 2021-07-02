@@ -22,9 +22,8 @@ jobs:
         uses: trilom/file-changes-action@v1.2.4
 
       - name: 'run vale'
-        uses: errata-ai/vale-action@v1.3.0
+        uses: errata-ai/vale-action@v1.4.2
         with:
-          config: .vale.ini
           files: '${{ steps.file_changes.outputs.files_modified }}'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
