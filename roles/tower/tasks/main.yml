@@ -10,7 +10,7 @@
         tower_settings: "{{ lookup('ansible.tower.tower_api', 'settings/all', host=tower_host, username=tower_user, password=tower_password, verify_ssl=validate_certs) }}"
   when:
     - tower_password is defined
-    - tower_oauth_token == ""
+    - not tower_oauth_token
     - inventory_hostname in groups['tower']
 
 - name: Gather information from Tower with Oauth authentication
@@ -24,7 +24,7 @@
         tower_settings: "{{ lookup('ansible.tower.tower_api', 'settings/all', host=tower_host, username=tower_user, oauth_token=tower_oauth_token, verify_ssl=validate_certs) }}"
   when:
     - tower_oauth_token is defined
-    - tower_password == ""
+    - not tower_password
     - inventory_hostname in groups['tower']
 
 - name: Gather Ansible Tower Node information

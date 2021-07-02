@@ -1,12 +1,12 @@
 ---
 # OAuth token for the Ansible Tower user
-tower_oauth_token: ""
+tower_oauth_token: false
 
 # Hostname of the Ansible Tower server
 tower_host: []
 
 # Ansible Tower user password
-tower_password: ""
+tower_password: false
 
 # Ansible Tower username
 tower_username: admin
