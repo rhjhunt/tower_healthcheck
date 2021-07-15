@@ -3,11 +3,11 @@ name: towerhealth
 version: 1.0.0
 readme: README.md
 authors:
-  - "Jacob Hunt <jhunt@redhat.com>"
+  - Jacob Hunt (https://github.com/rhjhunt)
 description: Collection to provide a general health check of an Ansible Tower installation
 license:
   - GPL-3.0-or-later
-license_file: LICENSE
+license_file: ''
 tags:
   - tower
   - healthcheck
@@ -17,13 +17,15 @@ tags:
 dependencies:
   "ansible.tower": "*"
   "community.general": "*"
-repository: "https://github.com/rhjhunt/towerhealth"
-documentation: "https://github.com/rhjhunt/towerhealth/wiki"
-homepage: "https://github.com/rhjhunt/towerhealth/wiki"
-issues: "https://github.com/rhjhunt/towerhealth/issues"
+repository: https://github.com/rhjhunt/towerhealth
+documentation: ''
+homepage: https://github.com/rhjhunt/towerhealth/wiki
+issues: https://github.com/rhjhunt/towerhealth/issues
 build_ignore:
-  - '.vale.ini'
-  - '.yamllint'
-  - '.markdownlint.json'
-  - '.github'
-  - '.gitignore'
+  - .vale.ini
+  - .yamllint
+  - .markdownlint.json
+  - .github
+  - .gitignore
+  - '*.tar.gz'
+  - venv/
