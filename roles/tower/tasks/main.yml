@@ -1,16 +1,17 @@
 ---
 - name: Gather information from Tower with password authentication
   block:
-    - name: Get the status from the ping API call
+    - name: Get the status from the ping API call with password authentication
       ansible.builtin.set_fact:
         tower_ping: "{{ lookup('ansible.tower.tower_api', 'ping', host=tower_host, username=tower_user, password=tower_password, verify_ssl=validate_certs) }}"
 
-    - name: Get the settings from settings API call
+    - name: Get the settings from settings API call with password authentication
       ansible.builtin.set_fact:
         tower_settings: "{{ lookup('ansible.tower.tower_api', 'settings/all', host=tower_host, username=tower_user, password=tower_password, verify_ssl=validate_certs) }}"
   when:
     - tower_password is defined
-    - tower_oauth_token is undefined
+    - not tower_oauth_token
+    - inventory_hostname in groups['tower']
 
 - name: Gather information from Tower with Oauth authentication
   block:
@@ -18,8 +19,51 @@
       ansible.builtin.set_fact:
         tower_ping: "{{ lookup('ansible.tower.tower_api', 'ping', host=tower_host, username=tower_user, oauth_token=tower_oauth_token, verify_ssl=validate_certs) }}"
 
-    - name: Get the settings from settings API call
+    - name: Get the settings from settings API call with OAuth authentication
       ansible.builtin.set_fact:
         tower_settings: "{{ lookup('ansible.tower.tower_api', 'settings/all', host=tower_host, username=tower_user, oauth_token=tower_oauth_token, verify_ssl=validate_certs) }}"
   when:
     - tower_oauth_token is defined
+    - not tower_password
+    - inventory_hostname in groups['tower']
+
+- name: Gather Ansible Tower Node information
+  block:
+    - name: Check status of supervisord
+      ansible.builtin.systemd:
+        name: supervisord
+        state: started
+      register: supervisord_systemd
+
+    - name: Check status of nginx
+      ansible.builtin.systemd:
+        name: nginx
+        state: started
+      register: nginx_systemd
+
+    - name: Check status of memcached
+      ansible.builtin.systemd:
+        name: memcached
+        state: started
+      register: memcached_systemd
+  when: inventory_hostname in groups['node']
+
+- name: Check that status of postgresql
+  ansible.builtin.systemd:
+    name: postgresql
+    state: started
+  register: postgresql_systemd
+  when:
+    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '8'
+    - inventory_hostname in groups['database']
+
+- name: Check the status of rh-postgresql
+  ansible.builtin.systemd:
+    name: rh-postgresql
+    state: started
+  register: rh-postgresql_systemd
+  when:
+    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '7'
+    - inventory_hostname in groups['database']

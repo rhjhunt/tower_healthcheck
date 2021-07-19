@@ -12,9 +12,9 @@ galaxy_info:
         - 7
         - 8
 
-galaxy_tags:
-  - tower
-  - ansibletower
-  - healtcheck
+  galaxy_tags:
+    - tower
+    - ansibletower
+    - healtcheck
 
 dependencies: []
