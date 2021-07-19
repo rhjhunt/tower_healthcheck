@@ -1,0 +1,37 @@
+---
+- name: high level block to determine if db replication is managed by toolkit
+  block:
+
+  - name: Set pg_bash fact
+    set_fact:
+      pg_bash: ""
+    when: pg_bash is not defined
+
+  - name: ensure master is not in recovery mode
+    command: '{{ pg_bash }} psql -U postgres -t -c "select pg_is_in_recovery();"'
+    register: recovery_mode
+    changed_when: false
+
+  - name: check recovery mode is set to false on primary
+    debug:
+      msg: "Recovery mode is {{ (recovery_mode.stdout.strip() == 't') | ternary('TRUE', 'FALSE') }}"
+    failed_when: recovery_mode.stdout.strip() != 'f'
+    ignore_errors: yes
+
+  - name: get master db  configured on tower nodes
+    command: python2 -c "import postgres; print postgres.DATABASES['default']['HOST']"
+    args:
+      chdir: /etc/tower/conf.d
+    register: master_db
+    delegate_to: "{{ groups['tower'][0] }}"
+    become_user: root
+    changed_when: false
+
+  - name: check configured db for tower nodes
+    debug:
+      msg: "Configured db is {{ master_db.stdout }}"
+    failed_when: pg_host != master_db.stdout
+
+  when: not tower_db_external
+  become: true
+  become_user: postgres
