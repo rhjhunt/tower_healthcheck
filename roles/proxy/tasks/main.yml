@@ -13,16 +13,16 @@
     validate_certs: "{{ validate_certs }}"
   when: haproxy_stats | bool
   delegate_to: localhost
+  run_once: true
 
 - name: Define HAProxy values from csv file
   set_fact:
     haproxy_stats: "{{ lookup('csvfile', 'tower file=/tmp/haproxy.csv delimiter=, col=17') }}"
   delegate_to: localhost
+  run_once: true
   
 - name: Clean up HAProxy csv file
   file:
     path: /tmp/haproxy.csv
     state: absent
   delegate_to: localhost
-
-
