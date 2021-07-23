@@ -1,0 +1,14 @@
+---
+- name: Prepare
+  hosts: all
+  tasks:
+
+    - name: Install postres
+      dnf:
+        name: postgresql-server
+        state: present
+
+    - name: Start postgresql
+      systemd:
+        name: postgresql
+        state: started

@@ -12,26 +12,30 @@ platforms:
     groups:
       - database
       - database_all
-    image: registry.redhat.io/rhel8/postgresql-10
+    image: centos:8
     command: /sbin/init
     tmpfs:
       - /run
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    published_ports:
+      - 0.0.0.0:5432:5432/tcp
     privileged: true
     pre_build_image: true
   - name: db01
     groups:
       - database_replica
       - database_all
-    image: registry.redhat.io/rhel8/postgresql-10
+    image: centos:8
     command: /sbin/init
     tmpfs:
       - /run
       - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    published_ports:
+      - 0.0.0.0:5433:5432/tcp
     privileged: true
     pre_build_image: true
 provisioner:
@@ -43,6 +47,6 @@ provisioner:
       database_replica:
         db_replica: true
       database_all:
-        pgsqlrep_password: foobar
+        pgsqlrep_password: changeme
 verifier:
   name: ansible
