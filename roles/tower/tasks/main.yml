@@ -67,3 +67,11 @@
     - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
     - ansible_distribution_major_version == '7'
     - inventory_hostname in groups['database']
+
+- name: Verify with awx-manage command
+  command:
+    cmd: "awx-manage test_isolated_connection --no-color --hostname={{ item }}"
+  ignore_errors: true
+  register: isolated_status
+  loop: "{{ groups['isolated'] }}"
+  delegate_to: "{{ groups['tower'][0] }}"
