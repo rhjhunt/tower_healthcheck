@@ -48,26 +48,6 @@
       register: memcached_systemd
   when: inventory_hostname in groups['node']
 
-- name: Check that status of postgresql
-  ansible.builtin.systemd:
-    name: postgresql
-    state: started
-  register: postgresql_systemd
-  when:
-    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
-    - ansible_distribution_major_version == '8'
-    - inventory_hostname in groups['database']
-
-- name: Check the status of rh-postgresql
-  ansible.builtin.systemd:
-    name: rh-postgresql
-    state: started
-  register: rh-postgresql_systemd
-  when:
-    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
-    - ansible_distribution_major_version == '7'
-    - inventory_hostname in groups['database']
-
 - name: Verify with awx-manage command
   command:
     cmd: "awx-manage test_isolated_connection --no-color --hostname={{ item }}"

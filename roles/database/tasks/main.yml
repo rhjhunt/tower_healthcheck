@@ -1,6 +1,26 @@
 ---
 - include: vars.yml
 
+- name: Check that status of postgresql
+  ansible.builtin.systemd:
+    name: postgresql
+    state: started
+  register: postgresql_systemd
+  when:
+    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '8'
+    - inventory_hostname in groups['database'] or inventory_hostname in groups['replica']
+
+- name: Check the status of rh-postgresql
+  ansible.builtin.systemd:
+    name: rh-postgresql
+    state: started
+  register: rh-postgresql_systemd
+  when:
+    - ansible_distribution == "RedHat" or ansible_distribution == "CentOS"
+    - ansible_distribution_major_version == '7'
+    - inventory_hostname in groups['database'] or inventory_hostname in groups['replica']
+
 - name: Run Replica tasks
   include_tasks: replica.yml
   when: db_replica is defined
